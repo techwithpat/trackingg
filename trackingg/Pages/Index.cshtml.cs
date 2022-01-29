@@ -1,20 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using trackingg.Data;
+using trackingg.Models;
 
 namespace trackingg.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly IssueDbContext _context;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(IssueDbContext context) => _context = context;
+
+        public async void OnGet()
         {
-            _logger = logger;
+            Issues = await _context.Issues.Where(i => i.Completed == null)
+                .OrderByDescending(i => i.Created)
+                .ToListAsync();
         }
 
-        public void OnGet()
-        {
-
-        }
+        public IEnumerable<Issue> Issues { get; set; } = Enumerable.Empty<Issue>();
     }
 }

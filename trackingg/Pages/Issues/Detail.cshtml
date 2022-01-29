@@ -1,0 +1,47 @@
+﻿@page "{id:int}"
+@using Humanizer
+@using trackingg.Extensions
+@model trackingg.Pages.Issues.DetailModel
+@{
+}
+
+<div class="mt-5">
+    @if(Model.Issue == null)
+    {
+        
+        <div class="alert alert-warning" role="alert">
+            Issue not found
+        </div>
+    }
+    else
+    {
+        <div>
+            <h3>@Model.Issue.Title</h3>
+            <div class="mb-2">
+                <span class="badge bg-info">@Model.Issue.IssueType</span>
+                <span class="@Model.Issue.Priority.ToCssClass()">@Model.Issue.Priority</span>
+                <span class="badge bg-info">@Model.Issue.Created.Humanize(utcDate:false)</span>
+            </div>
+            <p>@Model.Issue.Description</p>
+            <button id="resolveButton" type="submit" data-issueid="@Model.Issue.Id" class="btn btn-primary btn-lg">Resolve</button>
+        </div>
+    }
+</div>
+
+@section Scripts{
+    <script>
+        $(function() {
+            var resolveBtn = document.getElementById('resolveButton')
+            resolveBtn.addEventListener('click', function(e) {
+                e.preventDefault()
+
+                var issueId = resolveBtn.getAttribute('data-issueid')
+
+                $.get(`?handler=resolve&id=${issueId}`, function() {
+                    alert(`Issue ${issueId} has been resolved`)
+                    window.location.href = '/'
+                })
+            })
+        });
+    </script>
+}

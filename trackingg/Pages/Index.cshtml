@@ -1,10 +1,39 @@
 ﻿@page
+@using Humanizer
+@using trackingg.Extensions
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="mt-5">
+
+    <a asp-page="/Issues/New" class="w-20 btn btn-primary m-2">+ Add new</a>
+
+    @if (Model.Issues.Count() == 0)
+    {
+        <p class="text-center">No data to display</p>
+    }
+    else
+    {
+        <div class="row g-0">
+            @foreach (var issue in Model.Issues)
+            {
+                <div class="card col-3 m-2">
+                    <div class="card-header">
+                        @issue.IssueType
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate">
+                            <a asp-page="/Issues/Detail" asp-route-id="@issue.Id" class="link-dark text-decoration-none" >@issue.Title</a>
+                        </h5>
+                        <span class="@issue.Priority.ToCssClass()">@issue.Priority</span>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <small>@issue.Created.Humanize(utcDate:false)</small>
+                    </div>
+                </div>
+            }
+        </div>
+    }
 </div>
