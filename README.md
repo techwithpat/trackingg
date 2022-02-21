@@ -14,12 +14,6 @@ git clone https://github.com/techwithpat/trackingg
 ## Build the solution (Ctrl + Shift + B)
 This step should download and install the dependencies.
 
-## Apply existing migrations 
-This step will create the database.
-
-If you use VS, in the package manager console : `Update-Database`<br/>
-If you use NET Core CLI : `dotnet ef database update`
-
 ## Run the project
 Press F5 to launch the web application.<br/>
 
