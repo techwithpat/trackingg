@@ -22,4 +22,5 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
+app.EnsureDatabaseCreated();
 app.Run();
